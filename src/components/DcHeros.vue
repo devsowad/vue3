@@ -1,5 +1,5 @@
 <template>
-  <h2 class="text-4xl mb-10 font-bold text-secondary text-center">DC Heroes</h2>
+  <h2 class="text-4xl mb-10 font-bold text-secondary text-center">DC Heros</h2>
   <form
     @submit.prevent="addHero"
     class="flex w-full max-w-sm mx-auto space-x-3 mb-10"
@@ -20,7 +20,7 @@
   </form>
   <div
     class="transition-all flex justify-between items-center group px-6 py-5 max-w-full mx-auto w-72 border border-primary border-opacity-25 cursor-pointer rounded select-none overflow-hidden space-y-1 hover:bg-white shadow-lg hover:border-transparent my-2"
-    v-for="(hero, index) in dcHeroes"
+    v-for="(hero, index) in dcHeros"
     :key="hero.name"
   >
     <p class="font-semibold text-lg text-primary group-hover:text-gray-900">
@@ -40,25 +40,25 @@ export default {
   data() {
     return {
       newHero: null,
-      dcHeroes: [{ name: "Super Man" }],
+      dcHeros: [{ name: "Super Man" }],
     };
   },
   methods: {
     addHero() {
       if (this.newHero) {
-        this.dcHeroes.unshift({ name: this.newHero });
+        this.dcHeros.unshift({ name: this.newHero });
         this.newHero = null;
       } else {
         alert("Insert name");
       }
     },
     removeHero(index) {
-      this.dcHeroes = this.dcHeroes.filter((hero, i) => i !== index);
+      this.dcHeros = this.dcHeros.filter((hero, i) => i !== index);
     },
   },
   computed: {
     totalHero() {
-      return this.dcHeroes.length;
+      return this.dcHeros.length;
     },
   },
 };
