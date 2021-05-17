@@ -94,6 +94,7 @@ export default {
         { name: "DcHeros", label: "Dc Heros" },
         { name: "Calendar" },
         { name: "Markdown" },
+        { name: "Carousel" },
       ],
       isNavShow: false,
     };

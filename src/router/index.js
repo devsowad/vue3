@@ -26,6 +26,11 @@ const routes = [
     name: "Markdown",
     component: () => import("../views/Markdown.vue"),
   },
+  {
+    path: "/carousel",
+    name: "Carousel",
+    component: () => import("../views/Carousel.vue"),
+  },
 ]
 
 const router = createRouter({

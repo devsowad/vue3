@@ -1,5 +1,7 @@
 <template>
-  <h2 class="text-4xl mb-10 font-bold text-secondary text-center">Calendar</h2>
+  <h2 class="text-4xl mb-10 font-bold text-secondary text-center w-full">
+    Calendar
+  </h2>
 
   <div
     class="w-full max-w-lg mx-auto space-x-3 rounded-lg shadow-2xl p-8 text-lg"
