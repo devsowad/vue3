@@ -1,8 +1,5 @@
 <template>
-  <h2 class="text-4xl mb-10 font-bold text-secondary text-center w-full">
-    Calendar
-  </h2>
-
+  <page-title title="Calendar" />
   <div
     class="w-full max-w-lg mx-auto space-x-3 rounded-lg shadow-2xl p-8 text-lg"
   >
@@ -49,12 +46,14 @@
 </template>
 
 <script>
+import PageTitle from "../components/PageTitle.vue";
 export default {
+  components: { PageTitle },
   data() {
     return {
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       currentMonth: new Date().getMonth() + 1,
-      currentYear: new Date().getFullYear(),
+      currentYear: new Date().getFullYear()
     };
   },
   computed: {
@@ -62,12 +61,16 @@ export default {
       return new Date(this.currentMonth, this.currentMonth - 1).toLocaleString(
         "default",
         {
-          month: "long",
+          month: "long"
         }
       );
-    },
+    }
   },
   methods: {
+    handleKeyDown({ key }) {
+      if (key === "ArrowRight") this.next();
+      else if (key === "ArrowLeft") this.prev();
+    },
     getDaysInMonth() {
       return new Date(this.currentYear, this.currentMonth, 0).getDate();
     },
@@ -101,8 +104,14 @@ export default {
           ? "bg-secondary text-white"
           : "";
       }
-    },
+    }
   },
+  mounted() {
+    window.addEventListener("keydown", this.handleKeyDown);
+  },
+  unmounted() {
+    window.removeEventListener("keydown", this.handleKeyDown);
+  }
 };
 </script>
 

@@ -31,6 +31,11 @@ const routes = [
     name: "Carousel",
     component: () => import("../views/Carousel.vue"),
   },
+  {
+    path: "/calculator",
+    name: "Calculator",
+    component: () => import("../views/Calculator.vue"),
+  },
 ]
 
 const router = createRouter({

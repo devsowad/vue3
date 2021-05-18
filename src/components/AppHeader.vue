@@ -95,6 +95,7 @@ export default {
         { name: "Calendar" },
         { name: "Markdown" },
         { name: "Carousel" },
+        { name: "Calculator" },
       ],
       isNavShow: false,
     };

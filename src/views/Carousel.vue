@@ -39,30 +39,43 @@ export default {
         "bg-yellow-500",
         "bg-green-500",
         "bg-pink-500",
-        "bg-blue-900",
+        "bg-blue-900"
       ],
-      interval: null,
+      interval: null
     };
   },
   mounted() {
     this.createSlider();
+    window.addEventListener("keydown", this.handleKeyDown);
   },
   methods: {
+    handleKeyDown({ key }) {
+      if (key === "ArrowRight") this.next();
+      else if (key === "ArrowLeft") this.prev();
+    },
     clearSlider() {
       clearInterval(this.interval);
     },
     createSlider() {
-      this.interval = setInterval(() => {
-        this.activeCarousel =
-          this.activeCarousel === this.carousels.length - 1
-            ? 0
-            : this.activeCarousel + 1;
-      }, 500);
+      this.interval = setInterval(() => this.next(), 3000);
     },
+    next() {
+      this.activeCarousel =
+        this.activeCarousel === this.carousels.length - 1
+          ? 0
+          : this.activeCarousel + 1;
+    },
+    prev() {
+      this.activeCarousel =
+        this.activeCarousel === 0
+          ? this.carousels.length - 1
+          : this.activeCarousel - 1;
+    }
   },
   beforeUnmount() {
     this.clearSlider();
-  },
+    window.removeEventListener("keydown", this.handleKeyDown);
+  }
 };
 </script>
 
