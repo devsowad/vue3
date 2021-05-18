@@ -36,6 +36,11 @@ const routes = [
     name: "Calculator",
     component: () => import("../views/Calculator.vue"),
   },
+  {
+    path: "/reusable-modal",
+    name: "ReusableModal",
+    component: () => import("../views/ReusableModal.vue"),
+  },
 ]
 
 const router = createRouter({

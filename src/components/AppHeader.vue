@@ -96,15 +96,16 @@ export default {
         { name: "Markdown" },
         { name: "Carousel" },
         { name: "Calculator" },
+        { name: "ReusableModal", label: "Reusable Modal" }
       ],
-      isNavShow: false,
+      isNavShow: false
     };
   },
   methods: {
     toggleNav() {
       this.isNavShow = !this.isNavShow;
-    },
-  },
+    }
+  }
 };
 </script>
 
