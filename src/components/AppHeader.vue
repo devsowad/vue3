@@ -17,7 +17,7 @@
               <button
                 @click="toggleNav"
                 type="button"
-                class="material-icons bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                class="material-icons icon-button"
                 aria-expanded="false"
               >
                 menu
@@ -27,13 +27,19 @@
         </div>
         <div class="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
           <router-link
-            class="font-medium text-gray-500 hover:text-gray-900"
+            class="router-link"
             v-for="link in navLinks"
             :key="link.name"
             :to="{ name: link.name }"
           >
             {{ link.label ?? link.name }}
           </router-link>
+          <button
+            @click="$emit('open-login-modal')"
+            class="router-link focus:ring-1 focus:ring-primary focus:outline-none focus:font-bold"
+          >
+            login
+          </button>
         </div>
       </nav>
     </div>
@@ -63,7 +69,7 @@
             <button
               @click="toggleNav"
               type="button"
-              class="bg-white material-icons rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+              class="icon-button material-icons"
             >
               close
             </button>
@@ -72,13 +78,14 @@
         <div class="px-2 pt-2 pb-3 space-y-1">
           <router-link
             @click="toggleNav"
-            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+            class="router-link-mobile"
             v-for="link in navLinks"
             :key="link.name"
             :to="{ name: link.name }"
           >
             {{ link.label ?? link.name }}
           </router-link>
+          <button class="router-link-mobile">login</button>
         </div>
       </div>
     </div>
@@ -112,5 +119,13 @@ export default {
 <style lang="postcss">
 .router-link-active {
   @apply text-primary hover:text-primary font-bold !important;
+}
+
+.router-link-mobile {
+  @apply block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50;
+}
+
+.router-link {
+  @apply font-medium text-gray-500 hover:text-gray-900;
 }
 </style>

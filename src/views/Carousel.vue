@@ -1,5 +1,7 @@
 <template>
-  <div class="flex mb-10 relative flex-wrap w-full h-96">
+  <div
+    class="overflow-x-hidden overflow-y-auto flex mb-10 relative flex-wrap w-full h-96"
+  >
     <div
       v-for="(carousel, index) in carousels"
       :key="carousel"
