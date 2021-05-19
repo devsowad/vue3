@@ -35,6 +35,14 @@
             {{ link.label ?? link.name }}
           </router-link>
           <button
+            v-if="isLogin"
+            @click="logout"
+            class="router-link focus:ring-1 focus:ring-primary focus:outline-none focus:font-bold"
+          >
+            logout
+          </button>
+          <button
+            v-else
             @click="$emit('open-login-modal')"
             class="router-link focus:ring-1 focus:ring-primary focus:outline-none focus:font-bold"
           >
@@ -85,7 +93,16 @@
           >
             {{ link.label ?? link.name }}
           </router-link>
-          <button class="router-link-mobile">login</button>
+          <button
+            @click="$emit('open-login-modal')"
+            v-if="isLogin"
+            class="router-link-mobile"
+          >
+            logout
+          </button>
+          <button @click="logout" v-else class="router-link-mobile">
+            login
+          </button>
         </div>
       </div>
     </div>
@@ -93,7 +110,10 @@
 </template>
 
 <script>
+import firebase from "../utilities/firebase";
+
 export default {
+  props: { isLogin: Boolean },
   data() {
     return {
       navLinks: [
@@ -101,16 +121,23 @@ export default {
         { name: "DcHeros", label: "Dc Heros" },
         { name: "Calendar" },
         { name: "Markdown" },
-        { name: "Carousel" },
+        { name: "Carousel" }
       ],
-      isNavShow: false,
+      isNavShow: false
     };
   },
   methods: {
     toggleNav() {
       this.isNavShow = !this.isNavShow;
     },
-  },
+    async logout() {
+      try {
+        await firebase.auth().signOut();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 };
 </script>
 

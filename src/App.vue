@@ -4,7 +4,10 @@
       <div
         class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32"
       >
-        <app-header @open-login-modal="isLoginModalOpen = true" />
+        <app-header
+          :isLogin="isLogin"
+          @open-login-modal="isLoginModalOpen = true"
+        />
         <!-- <main
           class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:px-8"
         > -->
@@ -27,13 +30,27 @@
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import LoginModal from "./components/Login/LoginModal.vue";
+import firebase from "./utilities/firebase";
 
 export default {
+  components: { AppHeader, LoginModal },
   data() {
     return {
       isLoginModalOpen: false,
+      isLogin: false,
+      authUser: {}
     };
   },
-  components: { AppHeader, LoginModal },
+  mounted() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.isLogin = true;
+        this.authUser = user;
+      } else {
+        this.isLogin = false;
+        this.authUser = {};
+      }
+    });
+  }
 };
 </script>
