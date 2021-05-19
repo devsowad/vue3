@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      @click="$emit('close-login-modal')"
+      @click="close"
       class="fixed inset-0 w-screen h-screen bg-gray-600 z-20 bg-opacity-60"
     ></div>
     <div class="absolute inset-0">
@@ -9,10 +9,7 @@
         <div class="z-30 bg-white p-4 w-1/3 m-auto rounded shadow">
           <div class="flex justify-between items-center">
             <h2 class="text-base">Login</h2>
-            <button
-              @click="$emit('close-login-modal')"
-              class="icon-button material-icons"
-            >
+            <button @click="close" class="icon-button material-icons">
               close
             </button>
           </div>
@@ -23,7 +20,7 @@
               alt="Vue 3"
             />
 
-            <goggle-login class="my-3" />
+            <goggle-login @error="goggleError" @close="close" class="my-3" />
             <p class="text-lg text-center">OR,</p>
             <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
               Sign in to your account
@@ -34,7 +31,7 @@
               <div>
                 <label for="email-address" class="sr-only">Email address</label>
                 <input
-                  v-model="form.email"
+                  v-model="email"
                   ref="loginEmail"
                   type="email"
                   class="input-control"
@@ -44,7 +41,7 @@
               <div>
                 <label for="password" class="sr-only">Password</label>
                 <input
-                  v-model="form.password"
+                  v-model="password"
                   type="password"
                   class="input-control"
                   placeholder="Password"
@@ -52,8 +49,21 @@
               </div>
             </div>
 
+            <p class="text-red-600 text-md flex items-center" v-if="authError">
+              <span class="material-icons mr-2"> error </span>
+              {{ authError }}
+            </p>
             <div>
-              <button type="submit" class="form-button w-full">Sign in</button>
+              <button
+                :disabled="isLoading"
+                type="submit"
+                class="form-button w-full"
+              >
+                <span v-if="!isLoading">Sign in</span>
+                <span v-else class="material-icons animate-spin text-primary">
+                  hourglass_empty
+                </span>
+              </button>
             </div>
           </form>
         </div>
@@ -64,26 +74,55 @@
 
 <script>
 import GoggleLogin from "./GoggleLogin.vue";
+import firebase from "../../utilities/firebase";
+import { onMounted, ref } from "vue";
+
 export default {
   components: { GoggleLogin },
-  data() {
-    return {
-      form: {
-        email: "",
-        password: "",
-      },
+  setup(_, { emit }) {
+    const email = ref("vue3@email.com");
+    const password = ref("123456");
+    const loginEmail = ref(null);
+    const isLoading = ref(false);
+    const authError = ref("");
+
+    const close = () => emit("close-login-modal");
+
+    onMounted(() => {
+      loginEmail.value.focus();
+    });
+
+    const login = async () => {
+      isLoading.value = true;
+      try {
+        await firebase
+          .auth()
+          .signInWithEmailAndPassword(email.value, password.value);
+
+        email.value = "";
+        password.value = "";
+        close();
+      } catch (error) {
+        authError.value = error.message;
+      }
+      isLoading.value = false;
     };
-  },
 
-  methods: {
-    login() {
-      console.log(this.form);
-    },
-  },
+    const goggleError = msg => {
+      authError.value = msg;
+    };
 
-  mounted() {
-    this.$refs.loginEmail.focus();
-  },
+    return {
+      login,
+      loginEmail,
+      email,
+      password,
+      isLoading,
+      authError,
+      close,
+      goggleError
+    };
+  }
 };
 </script>
 

@@ -8,12 +8,22 @@
 </template>
 
 <script>
+import firebase from "../../utilities/firebase";
+
 export default {
   methods: {
-    loginWithGoggle() {
-      console.log("login with goggle");
-    },
-  },
+    async loginWithGoggle() {
+      try {
+        var provider = new firebase.auth.GoogleAuthProvider();
+
+        await firebase.auth().signInWithPopup(provider);
+
+        this.$emit("close");
+      } catch (error) {
+        this.$emit("error", error.message);
+      }
+    }
+  }
 };
 </script>
 
