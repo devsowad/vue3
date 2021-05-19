@@ -103,7 +103,7 @@ export default {
         { name: "Markdown" },
         { name: "Carousel" },
         { name: "Calculator" },
-        { name: "ReusableModal", label: "Reusable Modal" }
+        { name: "ReusableModal", label: "Modal" }
       ],
       isNavShow: false
     };
