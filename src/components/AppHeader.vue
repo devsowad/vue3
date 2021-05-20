@@ -43,7 +43,7 @@
           </button>
           <button
             v-else
-            @click="$emit('open-login-modal')"
+            @click="openLoginModal"
             class="router-link focus:ring-1 focus:ring-primary focus:outline-none focus:font-bold"
           >
             login
@@ -94,7 +94,7 @@
             {{ link.label ?? link.name }}
           </router-link>
           <button
-            @click="$emit('open-login-modal')"
+            @click="openLoginModal"
             v-if="isLogin"
             class="router-link-mobile"
           >
@@ -113,7 +113,6 @@
 import firebase from "../utilities/firebase";
 
 export default {
-  props: { isLogin: Boolean },
   data() {
     return {
       navLinks: [
@@ -123,7 +122,8 @@ export default {
         { name: "Markdown" },
         { name: "Carousel" },
         { name: "Calculator" },
-        { name: "ReusableModal", label: "Modal" }
+        { name: "ReusableModal", label: "Modal" },
+        { name: "Chat" }
       ],
       isNavShow: false
     };
@@ -135,9 +135,18 @@ export default {
     async logout() {
       try {
         await firebase.auth().signOut();
+        this.$router.push({ name: "Home" });
       } catch (error) {
         console.log(error);
       }
+    },
+    openLoginModal() {
+      this.$store.commit("setLoginModal", true);
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
     }
   }
 };

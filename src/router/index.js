@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router"
+import store from "../store"
 
 const routes = [
   {
@@ -41,11 +42,24 @@ const routes = [
     name: "ReusableModal",
     component: () => import("../views/ReusableModal.vue"),
   },
+  {
+    path: "/chat",
+    name: "Chat",
+    component: () => import("../views/Chat.vue"),
+    meta: { middleware: "auth" },
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.middleware) {
+    const middleware = require(`../middleware/${to.meta.middleware}`)
+    middleware ? middleware.default(next, store) : next()
+  } else next()
 })
 
 export default router

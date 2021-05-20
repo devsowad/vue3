@@ -30,8 +30,9 @@
 </template>
 
 <script>
-import { onMounted, onUnmounted, ref } from "vue";
+import { ref } from "vue";
 import PageTitle from "../components/PageTitle.vue";
+import useWindowEvent from "../utilities/composition/useWindowEvent";
 
 export default {
   components: { PageTitle },
@@ -129,8 +130,7 @@ export default {
       }
     };
 
-    onMounted(() => window.addEventListener("keydown", handleKeyDown));
-    onUnmounted(() => window.removeEventListener("keydown", handleKeyDown));
+    useWindowEvent("keydown", handleKeyDown);
 
     return { keys, pressed, currentNum, prevNum, selectedOperation, result };
   }

@@ -4,10 +4,7 @@
       <div
         class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:w-full lg:pb-28 xl:pb-32"
       >
-        <app-header
-          :isLogin="isLogin"
-          @open-login-modal="isLoginModalOpen = true"
-        />
+        <app-header />
         <!-- <main
           class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:px-8"
         > -->
@@ -19,12 +16,7 @@
     </div>
   </div>
 
-  <teleport to="body">
-    <login-modal
-      @close-login-modal="isLoginModalOpen = false"
-      v-if="isLoginModalOpen"
-    />
-  </teleport>
+  <login-modal />
 </template>
 
 <script>
@@ -34,22 +26,9 @@ import firebase from "./utilities/firebase";
 
 export default {
   components: { AppHeader, LoginModal },
-  data() {
-    return {
-      isLoginModalOpen: false,
-      isLogin: false,
-      authUser: {}
-    };
-  },
   mounted() {
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.isLogin = true;
-        this.authUser = user;
-      } else {
-        this.isLogin = false;
-        this.authUser = {};
-      }
+      this.$store.commit("setAuth", user);
     });
   }
 };
