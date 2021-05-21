@@ -117,13 +117,15 @@ export default {
     return {
       navLinks: [
         { name: "Home" },
+        { name: "Tensorflow" },
         { name: "DcHeros", label: "Dc Heros" },
         { name: "Calendar" },
         { name: "Markdown" },
         { name: "Carousel" },
         { name: "Calculator" },
         { name: "ReusableModal", label: "Modal" },
-        { name: "Chat" }
+        { name: "Chat" },
+        { name: "User" }
       ],
       isNavShow: false
     };

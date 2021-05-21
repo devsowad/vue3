@@ -21,9 +21,9 @@
               </button>
             </div>
             <div>
-              <h1 class="font-bold text-center my-10">
+              <h4 class="font-bold text-center my-10">
                 <slot name="header"></slot>
-              </h1>
+              </h4>
               <slot></slot>
             </div>
           </div>

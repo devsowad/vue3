@@ -8,6 +8,11 @@ const routes = [
     component: () => import("../views/Home.vue"),
   },
   {
+    path: "/tensorflow",
+    name: "Tensorflow",
+    component: () => import("../views/Tensorflow.vue"),
+  },
+  {
     path: "/about",
     name: "About",
     component: () => import("../views/About.vue"),
@@ -47,6 +52,11 @@ const routes = [
     name: "Chat",
     component: () => import("../views/Chat.vue"),
     meta: { middleware: "auth" },
+  },
+  {
+    path: "/user",
+    name: "User",
+    component: () => import("../views/User.vue"),
   },
 ]
 
