@@ -11,7 +11,6 @@
 
     <modal
       title="Large Modal"
-      width="1/2"
       v-if="isLargeModalOpen"
       @close="isLargeModalOpen = false"
     >
@@ -19,6 +18,7 @@
       <p class="text-center mb-10">This is the large modal</p>
     </modal>
     <modal
+      width="1/2"
       title="Small Modal"
       v-if="isSmallModalOpen"
       @close="isSmallModalOpen = false"
