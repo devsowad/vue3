@@ -2,8 +2,16 @@
   <page-title title="Tensorflow" />
 
   <div class="w-96">
-    <button v-if="!isStreaming" @click="openCamera" class="form-button w-full">
-      Open Camera
+    <button
+      v-if="!isStreaming"
+      @click="openCamera"
+      class="form-button w-full"
+      :disabled="isCameraLoading"
+    >
+      <span v-if="!isCameraLoading">Open Camera</span>
+      <span v-else class="material-icons animate-spin text-primary">
+        hourglass_empty
+      </span>
     </button>
     <div v-else class="flex justify-between">
       <button @click="stopStreaming" class="form-button">Stop Streaming</button>
@@ -69,6 +77,7 @@ export default {
     const imgRef = ref(null);
     const detectionError = ref(null);
     const isLoading = ref(false);
+    const isCameraLoading = ref(false);
     const result = ref([]);
     const videoRef = ref(null);
     const isStreaming = ref(false);
@@ -89,19 +98,35 @@ export default {
     };
 
     const openCamera = async () => {
-      if (navigator.mediaDevices.getUserMedia) {
+      isCameraLoading.value = true;
+      try {
+        if (
+          "mediaDevices" in navigator &&
+          "getUserMedia" in navigator.mediaDevices
+        ) {
+          navigator.mediaDevices
+            .getUserMedia({
+              video: await getCamId()
+            })
+            .then(stream => {
+              isStreaming.value = true;
+              videoRef.value.srcObject = stream;
+            });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      isCameraLoading.value = false;
+    };
+
+    const getCamId = async () => {
+      try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const cams = devices.filter(device => device.kind === "videoinput");
         const camId = cams[0].deviceId;
-
-        navigator.mediaDevices
-          .getUserMedia({
-            video: { deviceId: { exact: camId } }
-          })
-          .then(stream => {
-            isStreaming.value = true;
-            videoRef.value.srcObject = stream;
-          });
+        return camId ? { deviceId: { exact: camId } } : true;
+      } catch (error) {
+        console.log(error);
       }
     };
 
@@ -132,7 +157,8 @@ export default {
       videoRef,
       isStreaming,
       stopStreaming,
-      takeSnapshot
+      takeSnapshot,
+      isCameraLoading
     };
   }
 };
